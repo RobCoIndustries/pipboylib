@@ -51,9 +51,9 @@ Messages are by their **id** and nickname below.
 Sets a waypoint on the world map.
 
 ### args
-*longitude?* **double**
-*latitude?* **double**
-*?* **boolean**
+- *longitude?* **double**  
+- *latitude?* **double**  
+- *?* **boolean**  
 
 ### Example
 
@@ -67,7 +67,7 @@ Sets a waypoint on the world map.
 Fast travel to a location
 
 ### args
-*locationId* **integer**
+- *locationId* **integer**  
 
 ### Example
 
@@ -95,7 +95,7 @@ none
 Toggles a radio station
 
 ### args
-*ID* **integer**  Station ID
+- *ID* **integer**  Station ID  
 
 ### Known station IDs
 
@@ -116,10 +116,10 @@ ID    | Name
 Drop an item from the player's inventory
 
 ### args
-*?* **integer**
-*pageIndex?* **integer**
-*?* **integer**
-*items?* **integer[]**
+- *?* **integer**  
+- *pageIndex?* **integer**  
+- *?* **integer**  
+- *items?* **integer[]**  
 
 ### Example
 
