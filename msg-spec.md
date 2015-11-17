@@ -2,7 +2,7 @@
 
 TCP messages from the app to the console are ASCII encoded JSON strings of the form:
 
-```json
+```
 {"type":<int>,"args":<any[]>,"id":<int>}
 ```
 
@@ -46,7 +46,7 @@ contents.  `0x00000005` is 5, it's unknown what this stands for.
 # Messages
 Messages are by their **id** and nickname below.
 
-## **6** Set waypoint 
+## **6**: Set waypoint 
 
 Sets a waypoint on the world map.
 
@@ -62,7 +62,7 @@ Sets a waypoint on the world map.
 ```
 
 
-## **9** Fast travel
+## **9**: Fast travel
 
 Fast travel to a location
 
@@ -76,7 +76,7 @@ Fast travel to a location
 ```
 
 
-## **13** Toggle local map view
+## **13**: Toggle local map view
 
 Changes the map to/from world view from/to local view
 
@@ -90,7 +90,7 @@ none
 ```
 
 
-## **12** Toggle a radio station
+## **12**: Toggle a radio station
 
 Toggles a radio station
 
@@ -111,7 +111,7 @@ ID    | Name
 ```
 
 
-## **1** Drop item
+## **1**: Drop item
 
 Drop an item from the player's inventory
 
