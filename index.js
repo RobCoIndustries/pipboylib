@@ -124,6 +124,8 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
       client.on('data', function (message) {
         var copiedBuffer = new Buffer(message.length)
         message.copy(copiedBuffer)
+
+        // To the server
         fakeClient.write(message)
 
         var telemetry = {
