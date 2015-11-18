@@ -155,8 +155,7 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
         'src': serverInfo,
         'dst': clientInfo
       }
-
-      fakeClient.pipe(client, {end: false})
+      client.write(message)
 
       cb(copiedBuffer, telemetry)
     })
