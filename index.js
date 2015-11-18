@@ -113,14 +113,46 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
     fakeClient.connect(upstreamInfo.port, upstreamInfo.address)
 
     fakeClient.on('connect', function () {
-      console.log('connected')
-      // Now connected
-      client.pipe(fakeClient, {end: false})
+      client.on('data', function (message) {
+        var copiedBuffer = new Buffer(message.length)
+        message.copy(copiedBuffer)
+        fakeClient.write(message)
+
+        var serverInfo = {}
+        serverInfo.address = fakeClient.remoteAddress
+        serverInfo.port = fakeClient.remotePort
+        serverInfo.family = fakeClient.remoteFamily
+
+        var telemetry = {
+          'src': clientInfo,
+          'dst': serverInfo
+        }
+
+        cb(copiedBuffer, telemetry)
+      })
+    })
+
+    fakeClient.on('data', function (message) {
+      var copiedBuffer = new Buffer(message.length)
+      message.copy(copiedBuffer)
+
+      var serverInfo = {}
+      serverInfo.address = fakeClient.remoteAddress
+      serverInfo.port = fakeClient.remotePort
+      serverInfo.family = fakeClient.remoteFamily
+
+      var telemetry = {
+        'src': serverInfo,
+        'dst': clientInfo
+      }
+      client.write(message)
+
+      cb(copiedBuffer, telemetry)
     })
 
     fakeClient.on('close', function (hadError) {
       if (hadError) {
-        console.log('ERRZORZ')
+        console.log('closure error')
         client.close()
       }
     })
@@ -140,24 +172,6 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
 
     fakeClient.on('drain', function () {
       console.log('drain')
-    })
-
-    fakeClient.on('data', function (message) {
-      var copiedBuffer = new Buffer(message.length)
-      message.copy(copiedBuffer)
-
-      var serverInfo = {}
-      serverInfo.address = fakeClient.remoteAddress
-      serverInfo.port = fakeClient.remotePort
-      serverInfo.family = fakeClient.remoteFamily
-
-      var telemetry = {
-        'src': serverInfo,
-        'dst': clientInfo
-      }
-      client.write(message)
-
-      cb(copiedBuffer, telemetry)
     })
   })
 
