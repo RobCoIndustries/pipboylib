@@ -45,8 +45,7 @@ var discover = function discover (cb) {
  */
 
 /**
- * UDP relay server for Fallout 4's pip boy server
- * @constructor
+ * Create a UDP relay for Fallout 4's pip boy server
  * @param {string} remoteFallout - ip address of an upstream server
  * @param {UDPRelay~dataCallback} - callback that handles new data
  */
@@ -97,10 +96,12 @@ discover(function (error, server) {
     console.error(error)
     return
   }
+  console.log('Discovered: ', server)
+
   // Set up a new relay for each running server
-  var udpRelay = new UDPRelay(server.info, function (data, telemetry) {
+  UDPRelay(server.info, function (data, telemetry) {
     console.log(telemetry)
     console.log(data)
   })
-  console.log(udpRelay)
+  console.log('Created UDP Relay for: ', server.info)
 })
