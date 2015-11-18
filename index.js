@@ -1,54 +1,38 @@
-var util = require('util')
-var EventEmitter = require('events').EventEmitter
-
 var dgram = require('dgram')
 
-function PipBoy () {
-  EventEmitter.call(this)
-}
-
-util.inherits(PipBoy, EventEmitter)
-
-PipBoy.prototype.discover = function discover (cb) {
-  this.on('server', cb)
-
-  this.client = dgram.createSocket('udp4')
+var discover = function discover (cb) {
+  var client = dgram.createSocket('udp4')
 
   var autodiscover = function autodiscover () {
-    this.client.setBroadcast(true)
+    client.setBroadcast(true)
 
     var message = new Buffer('{"cmd":"autodiscover"}')
-    this.client.send(message, 0, message.length, 28000, '255.255.255.255', function (err) {
-      if (err !== undefined) {
-        this.emit('error', err)
+    client.send(message, 0, message.length, 28000, '255.255.255.255', function (err) {
+      if (err) {
+        cb(err)
       }
-    }.bind(this))
+    })
 
-    this.client.on('message', function (msg, rinfo) {
-      console.log('Received %d bytes from %s:%d\n',
-                  msg.length, rinfo.address, rinfo.port)
-
+    client.on('message', function (msg, rinfo) {
       try {
         var data = JSON.parse(msg.toString())
         data.Address = rinfo.address
         data.Port = rinfo.port
-        this.emit('server', data)
+        cb(undefined, data)
       } catch (e) {
-        this.emit('error', e)
+        cb(e, undefined)
         return
       }
-    }.bind(this))
+    })
   }
 
-  this.client.bind(undefined, undefined, autodiscover.bind(this))
+  client.bind(undefined, undefined, autodiscover)
 }
 
-var pipboy = new PipBoy()
-
-pipboy.on('error', function (err) {
-  console.error(err)
-})
-
-pipboy.discover(function (data) {
+discover(function (error, data) {
+  if (error) {
+    console.error(error)
+    return
+  }
   console.log(data)
 })
