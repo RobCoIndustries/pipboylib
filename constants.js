@@ -1,0 +1,4 @@
+module.exports = {
+  FALLOUT_UDP_PORT: 28000,
+  FALLOUT_TCP_PORT: 27000
+}
