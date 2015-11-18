@@ -105,26 +105,29 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
   var server = net.createServer({'allowHalfOpen': true})
 
   server.on('connection', function (client) {
-    // Client has connected, set up our connection to upstream
-    var clientInfo = client.address()
-
     // Now we create our fake client
     var fakeClient = new net.Socket()
     fakeClient.connect(upstreamInfo.port, upstreamInfo.address)
 
+    var serverInfo = {}
+    serverInfo.address = fakeClient.remoteAddress
+    serverInfo.port = fakeClient.remotePort
+    serverInfo.family = fakeClient.remoteFamily
+
+    var actualClientInfo = {}
+    actualClientInfo.address = client.remoteAddress
+    actualClientInfo.port = client.remotePort
+    actualClientInfo.family = client.remoteFamily
+
     fakeClient.on('connect', function () {
+      // Once we're connected, we can get each message from the client
       client.on('data', function (message) {
         var copiedBuffer = new Buffer(message.length)
         message.copy(copiedBuffer)
         fakeClient.write(message)
 
-        var serverInfo = {}
-        serverInfo.address = fakeClient.remoteAddress
-        serverInfo.port = fakeClient.remotePort
-        serverInfo.family = fakeClient.remoteFamily
-
         var telemetry = {
-          'src': clientInfo,
+          'src': actualClientInfo,
           'dst': serverInfo
         }
 
@@ -143,7 +146,7 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
 
       var telemetry = {
         'src': serverInfo,
-        'dst': clientInfo
+        'dst': actualClientInfo
       }
       client.write(message)
 
