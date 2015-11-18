@@ -1,7 +1,8 @@
 var dgram = require('dgram')
+var net = require('net')
 
 var FALLOUT_UDP_PORT = 28000
-// var FALLOUT_TCP_PORT = 27000
+var FALLOUT_TCP_PORT = 27000
 
 var discover = function discover (cb) {
   var client = dgram.createSocket('udp4')
@@ -33,7 +34,7 @@ var discover = function discover (cb) {
 
 /**
  * Provides data from clients and servers going through the relay
- * @callback UDPRelay~dataCallback
+ * @callback relayCallback
  * @param {Buffer} data
  * @param {Object} telemetry
  * @param {Object} telemetry.src
@@ -46,8 +47,10 @@ var discover = function discover (cb) {
 
 /**
  * Create a UDP relay for Fallout 4's pip boy server
- * @param {string} remoteFallout - ip address of an upstream server
- * @param {UDPRelay~dataCallback} - callback that handles new data
+ * @param {Object} upstreamInfo
+ * @param {string} upstreamInfo.address
+ * @param {number} upstreamInfo.port
+ * @param {relayCallback} - callback that handles new data
  */
 var UDPRelay = function UDPRelay (upstreamInfo, cb) {
   var server = dgram.createSocket('udp4')
@@ -91,6 +94,101 @@ var UDPRelay = function UDPRelay (upstreamInfo, cb) {
   server.bind(FALLOUT_UDP_PORT, '0.0.0.0')
 }
 
+/**
+ * Create a TCP relay for Fallout 4's pip boy server
+ * @param {Object} upstreamInfo
+ * @param {string} upstreamInfo.address
+ * @param {number} upstreamInfo.port
+ * @param {relayCallback} - callback that handles new data
+ */
+var TCPRelay = function TCPRelay (upstreamInfo, cb) {
+  var server = net.createServer({'allowHalfOpen': true})
+
+  server.on('connection', function (client) {
+    // Now we create our fake client
+    var fakeClient = new net.Socket()
+    fakeClient.connect(upstreamInfo.port, upstreamInfo.address)
+
+    var serverInfo = {}
+    serverInfo.address = fakeClient.remoteAddress
+    serverInfo.port = fakeClient.remotePort
+    serverInfo.family = fakeClient.remoteFamily
+
+    var actualClientInfo = {}
+    actualClientInfo.address = client.remoteAddress
+    actualClientInfo.port = client.remotePort
+    actualClientInfo.family = client.remoteFamily
+
+    fakeClient.on('connect', function () {
+      // Once we're connected, we can get each message from the client
+      client.on('data', function (message) {
+        var copiedBuffer = new Buffer(message.length)
+        message.copy(copiedBuffer)
+        fakeClient.write(message)
+
+        var telemetry = {
+          'src': actualClientInfo,
+          'dst': serverInfo
+        }
+
+        cb(copiedBuffer, telemetry)
+      })
+    })
+
+    fakeClient.on('data', function (message) {
+      var copiedBuffer = new Buffer(message.length)
+      message.copy(copiedBuffer)
+
+      var serverInfo = {}
+      serverInfo.address = fakeClient.remoteAddress
+      serverInfo.port = fakeClient.remotePort
+      serverInfo.family = fakeClient.remoteFamily
+
+      var telemetry = {
+        'src': serverInfo,
+        'dst': actualClientInfo
+      }
+      client.write(message)
+
+      cb(copiedBuffer, telemetry)
+    })
+
+    fakeClient.on('close', function (hadError) {
+      if (hadError) {
+        console.log('closure error')
+        client.close()
+      }
+    })
+
+    fakeClient.on('end', function () {
+      console.log('ending')
+      client.end()
+    })
+
+    fakeClient.on('error', function (err) {
+      console.error(err)
+    })
+
+    fakeClient.on('timeout', function () {
+      console.log('timeout')
+    })
+
+    fakeClient.on('drain', function () {
+      console.log('drain')
+    })
+  })
+
+  server.on('error', function (err) {
+    console.error(err)
+  })
+
+  server.on('listening', function () {
+    console.log('listening')
+  })
+
+  server.listen({'port': upstreamInfo.port})
+}
+
 discover(function (error, server) {
   if (error) {
     console.error(error)
@@ -100,8 +198,16 @@ discover(function (error, server) {
 
   // Set up a new relay for each running server
   UDPRelay(server.info, function (data, telemetry) {
-    console.log(telemetry)
-    console.log(data)
+    console.log('[UDP Relay] <', telemetry, '> ', data)
   })
-  console.log('Created UDP Relay for: ', server.info)
+
+  var tcpServerInfo = {}
+  tcpServerInfo.address = server.info.address
+  tcpServerInfo.port = FALLOUT_TCP_PORT
+  tcpServerInfo.family = server.info.family
+
+  TCPRelay(tcpServerInfo, function (data, telemetry) {
+    console.log('[TCP Relay] <', telemetry, '> ', data)
+  })
+  console.log('UDP and TCP Relay created for: ', server.info)
 })
