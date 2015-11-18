@@ -102,7 +102,7 @@ var UDPRelay = function UDPRelay (upstreamInfo, cb) {
  * @param {relayCallback} - callback that handles new data
  */
 var TCPRelay = function TCPRelay (upstreamInfo, cb) {
-  var server = net.createServer()
+  var server = net.createServer({'allowHalfOpen': true})
 
   server.on('connection', function (client) {
     // Client has connected, set up our connection to upstream
@@ -115,7 +115,7 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
     fakeClient.on('connect', function () {
       console.log('connected')
       // Now connected
-      client.pipe(fakeClient)
+      client.pipe(fakeClient, {end: false})
     })
 
     fakeClient.on('close', function (hadError) {
@@ -156,7 +156,7 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
         'dst': clientInfo
       }
 
-      fakeClient.pipe(client)
+      fakeClient.pipe(client, {end: false})
 
       cb(copiedBuffer, telemetry)
     })
