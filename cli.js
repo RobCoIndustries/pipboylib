@@ -2,11 +2,15 @@ var DiscoveryClient = require('./index').DiscoveryClient
 var UDPRelay = require('./relay').UDPRelay
 var TCPRelay = require('./relay').TCPRelay
 
+var hexy = require('hexy')
+
 var util = require('util')
 
 var FALLOUT_TCP_PORT = require('./constants').FALLOUT_TCP_PORT
 
 var falloutClient = new DiscoveryClient()
+
+var maxShowLength = 48
 
 falloutClient.discover(function (error, server) {
   if (error) {
@@ -22,7 +26,13 @@ falloutClient.discover(function (error, server) {
     var t = util.format('%s:%d -> %s:%d',
                         telemetry.src.address, telemetry.src.port,
                         telemetry.dst.address, telemetry.dst.port)
-    console.log('[UDP Relay] <', t, '> ', data)
+    var dataChunk = data.slice(0, Math.min(data.length, maxShowLength))
+    var dots = ''
+    if (dataChunk.length < data.length) {
+      dots = '...'
+    }
+    console.log('[UDP Relay] <', t, '>')
+    console.log(hexy.hexy(dataChunk) + dots)
   })
 
   var tcpServerInfo = {}
@@ -35,7 +45,15 @@ falloutClient.discover(function (error, server) {
     var t = util.format('%s:%d -> %s:%d',
                         telemetry.src.address, telemetry.src.port,
                         telemetry.dst.address, telemetry.dst.port)
-    console.log('[TCP Relay] <', t, '> ', data)
+
+    var dataChunk = data.slice(0, Math.min(data.length, maxShowLength))
+    var dots = ''
+    if (dataChunk.length < data.length) {
+      dots = '...'
+    }
+
+    console.log('[TCP Relay] <', t, '>')
+    console.log(hexy.hexy(dataChunk) + dots)
   })
   console.log('UDP and TCP Relay created for: ', server.info)
 })
