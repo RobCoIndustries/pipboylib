@@ -15,24 +15,27 @@ var net = require('net')
  */
 
 /**
- * Create a UDP relay for Fallout 4's pip boy server
- * @param {Object} upstreamInfo
- * @param {string} upstreamInfo.address
- * @param {number} upstreamInfo.port
- * @param {relayCallback} - callback that handles new data
+ * Create a UDP Relay
+ * @constructor
  */
-
 var UDPRelay = function UDPRelay () {
   this.server = dgram.createSocket('udp4')
 }
 
+/**
+ * Bind the UDP Relay using upstreamInfo
+ * @param {Object} upstreamInfo
+ * @param {string} upstreamInfo.address
+ * @param {number} upstreamInfo.port
+ * @param {relayCallback} - callback that receives data
+ */
 UDPRelay.prototype.bind = function UDPRelay (upstreamInfo, cb) {
   var server = this.server
   this.server.on('message', function (message, clientInfo) {
     var fakeClient = dgram.createSocket('udp4')
 
     fakeClient.on('message', function (message, serverInfo) {
-      // Every time the fake client gets a message, we expect it from the Fallout server
+      // Every time the fake client gets a message, we expect it from the upstream server
       if (serverInfo.address === upstreamInfo.address &&
           serverInfo.port === upstreamInfo.port) {
         var copiedBuffer = new Buffer(message.length)
@@ -46,7 +49,7 @@ UDPRelay.prototype.bind = function UDPRelay (upstreamInfo, cb) {
         }
         cb(copiedBuffer, telemetry)
       } else {
-        // TODO: Propagate an error
+        // Ignore responses not coming from the upstream server
       }
     })
 
@@ -68,7 +71,12 @@ UDPRelay.prototype.bind = function UDPRelay (upstreamInfo, cb) {
 }
 
 /**
- * Create a TCP relay for Fallout 4's pip boy server
+ * Create a TCP relay for an upstream server
+ * @constructor
+ */
+
+/**
+ * Listen for traffic to relay to/from an upstream server
  * @param {Object} upstreamInfo
  * @param {string} upstreamInfo.address
  * @param {number} upstreamInfo.port
