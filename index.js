@@ -2,20 +2,24 @@ var dgram = require('dgram')
 
 var FALLOUT_UDP_PORT = require('./constants').FALLOUT_UDP_PORT
 
-var discover = function discover (cb) {
-  var client = dgram.createSocket('udp4')
+var AUTODISCOVERY_PAYLOAD = '{"cmd":"autodiscover"}'
 
+var DiscoveryClient = function DiscoveryClient () {
+  this.client = dgram.createSocket('udp4')
+}
+
+DiscoveryClient.prototype.discover = function discover (cb) {
   var autodiscover = function autodiscover () {
-    client.setBroadcast(true)
+    this.setBroadcast(true)
 
-    var message = new Buffer('{"cmd":"autodiscover"}')
-    client.send(message, 0, message.length, FALLOUT_UDP_PORT, '255.255.255.255', function (err) {
+    var message = new Buffer(AUTODISCOVERY_PAYLOAD)
+    this.send(message, 0, message.length, FALLOUT_UDP_PORT, '255.255.255.255', function (err) {
       if (err) {
         cb(err)
       }
     })
 
-    client.on('message', function (msg, rinfo) {
+    this.on('message', function (msg, rinfo) {
       try {
         var server = JSON.parse(msg.toString())
         server.info = rinfo
@@ -27,9 +31,13 @@ var discover = function discover (cb) {
     })
   }
 
-  client.bind(undefined, undefined, autodiscover)
+  this.client.bind(undefined, undefined, autodiscover)
+}
+
+DiscoveryClient.prototype.close = function close (cb) {
+  this.client.close(cb)
 }
 
 module.exports = {
-  discover: discover
+  DiscoveryClient: DiscoveryClient
 }
