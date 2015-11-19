@@ -1,7 +1,7 @@
 var dgram = require('dgram')
 
-var FALLOUT_UDP_PORT = require('./constants').FALLOUT_UDP_PORT
-
+var FALLOUT_UDP_PORT = require('./lib/constants').FALLOUT_UDP_PORT
+var FALLOUT_TCP_PORT = require('./lib/constants').FALLOUT_TCP_PORT
 var AUTODISCOVERY_PAYLOAD = '{"cmd":"autodiscover"}'
 
 var DiscoveryClient = function DiscoveryClient () {
@@ -39,5 +39,7 @@ DiscoveryClient.prototype.close = function close (cb) {
 }
 
 module.exports = {
-  DiscoveryClient: DiscoveryClient
+  DiscoveryClient: DiscoveryClient,
+  FALLOUT_UDP_PORT: FALLOUT_UDP_PORT,
+  FALLOUT_TCP_PORT: FALLOUT_TCP_PORT
 }
