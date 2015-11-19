@@ -1,12 +1,12 @@
-var DiscoveryClient = require('./index').DiscoveryClient
-var UDPRelay = require('./relay').UDPRelay
-var TCPRelay = require('./relay').TCPRelay
+var DiscoveryClient = require('.').DiscoveryClient
+var UDPRelay = require('./lib/relay').UDPRelay
+var TCPRelay = require('./lib/relay').TCPRelay
 
 var hexy = require('hexy')
 
 var util = require('util')
 
-var FALLOUT_TCP_PORT = require('./constants').FALLOUT_TCP_PORT
+var FALLOUT_TCP_PORT = require('.').FALLOUT_TCP_PORT
 
 var falloutClient = new DiscoveryClient()
 
