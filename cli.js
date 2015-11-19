@@ -1,10 +1,12 @@
-var discover = require('./index').discover
+var DiscoveryClient = require('./index').DiscoveryClient
 var UDPRelay = require('./relay').UDPRelay
 var TCPRelay = require('./relay').TCPRelay
 
 var FALLOUT_TCP_PORT = require('./constants').FALLOUT_TCP_PORT
 
-discover(function (error, server) {
+var falloutClient = new DiscoveryClient()
+
+falloutClient.discover(function (error, server) {
   if (error) {
     console.error(error)
     return
