@@ -2,6 +2,8 @@ var DiscoveryClient = require('./index').DiscoveryClient
 var UDPRelay = require('./relay').UDPRelay
 var TCPRelay = require('./relay').TCPRelay
 
+var util = require('util')
+
 var FALLOUT_TCP_PORT = require('./constants').FALLOUT_TCP_PORT
 
 var falloutClient = new DiscoveryClient()
@@ -17,7 +19,10 @@ falloutClient.discover(function (error, server) {
 
   var udpRelay = new UDPRelay()
   udpRelay.bind(server.info, function (data, telemetry) {
-    console.log('[UDP Relay] <', telemetry, '> ', data)
+    var t = util.format('%s:%d -> %s:%d',
+                        telemetry.src.address, telemetry.src.port,
+                        telemetry.dst.address, telemetry.dst.port)
+    console.log('[UDP Relay] <', t, '> ', data)
   })
 
   var tcpServerInfo = {}
@@ -27,7 +32,10 @@ falloutClient.discover(function (error, server) {
 
   var tcpRelay = new TCPRelay()
   tcpRelay.listen(tcpServerInfo, function (data, telemetry) {
-    console.log('[TCP Relay] <', telemetry, '> ', data)
+    var t = util.format('%s:%d -> %s:%d',
+                        telemetry.src.address, telemetry.src.port,
+                        telemetry.dst.address, telemetry.dst.port)
+    console.log('[TCP Relay] <', t, '> ', data)
   })
   console.log('UDP and TCP Relay created for: ', server.info)
 })
