@@ -23,7 +23,8 @@ falloutClient.discover(function (error, server) {
   tcpServerInfo.port = FALLOUT_TCP_PORT
   tcpServerInfo.family = server.info.family
 
-  TCPRelay(tcpServerInfo, function (data, telemetry) {
+  var tcpRelay = new TCPRelay()
+  tcpRelay.listen(tcpServerInfo, function (data, telemetry) {
     console.log('[TCP Relay] <', telemetry, '> ', data)
   })
   console.log('UDP and TCP Relay created for: ', server.info)

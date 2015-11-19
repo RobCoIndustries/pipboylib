@@ -70,10 +70,12 @@ var UDPRelay = function UDPRelay (upstreamInfo, cb) {
  * @param {number} upstreamInfo.port
  * @param {relayCallback} - callback that handles new data
  */
-var TCPRelay = function TCPRelay (upstreamInfo, cb) {
-  var server = net.createServer({'allowHalfOpen': true})
+var TCPRelay = function TCPRelay () {
+  this.server = net.createServer({'allowHalfOpen': true})
+}
 
-  server.on('connection', function (client) {
+TCPRelay.prototype.listen = function listen (upstreamInfo, cb) {
+  this.server.on('connection', function (client) {
     // Now we create our fake client
     var fakeClient = new net.Socket()
     fakeClient.connect(upstreamInfo.port, upstreamInfo.address)
@@ -127,8 +129,8 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
     fakeClient.on('close', function (hadError) {
       if (hadError) {
         console.log('closure error')
-        client.close()
       }
+      client.close()
     })
 
     fakeClient.on('end', function () {
@@ -149,15 +151,19 @@ var TCPRelay = function TCPRelay (upstreamInfo, cb) {
     })
   })
 
-  server.on('error', function (err) {
+  this.server.on('error', function (err) {
     console.error(err)
   })
 
-  server.on('listening', function () {
+  this.server.on('listening', function () {
     console.log('listening')
   })
 
-  server.listen({'port': upstreamInfo.port})
+  this.server.listen({'port': upstreamInfo.port})
+}
+
+TCPRelay.prototype.close = function close (cb) {
+  this.server.close(cb)
 }
 
 module.exports = {
