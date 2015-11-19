@@ -14,7 +14,9 @@ falloutClient.discover(function (error, server) {
   console.log('Discovered: ', server)
 
   // Set up a new relay for each running server
-  UDPRelay(server.info, function (data, telemetry) {
+
+  var udpRelay = new UDPRelay()
+  udpRelay.bind(server.info, function (data, telemetry) {
     console.log('[UDP Relay] <', telemetry, '> ', data)
   })
 

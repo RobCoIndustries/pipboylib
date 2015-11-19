@@ -21,10 +21,14 @@ var net = require('net')
  * @param {number} upstreamInfo.port
  * @param {relayCallback} - callback that handles new data
  */
-var UDPRelay = function UDPRelay (upstreamInfo, cb) {
-  var server = dgram.createSocket('udp4')
 
-  server.on('message', function (message, clientInfo) {
+var UDPRelay = function UDPRelay () {
+  this.server = dgram.createSocket('udp4')
+}
+
+UDPRelay.prototype.bind = function UDPRelay (upstreamInfo, cb) {
+  var server = this.server
+  this.server.on('message', function (message, clientInfo) {
     var fakeClient = dgram.createSocket('udp4')
 
     fakeClient.on('message', function (message, serverInfo) {
@@ -60,7 +64,7 @@ var UDPRelay = function UDPRelay (upstreamInfo, cb) {
     })
   })
 
-  server.bind(upstreamInfo.port, '0.0.0.0')
+  this.server.bind(upstreamInfo.port, '0.0.0.0')
 }
 
 /**
