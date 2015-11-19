@@ -11,8 +11,5 @@
     "url": "https://github.com/rgbkrk/pipboylib.git"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
-  "license": "BSD-3-Clause",
-  "dependencies": {
-    "hexy": "^0.2.7"
-  }
+  "license": "BSD-3-Clause"
 }

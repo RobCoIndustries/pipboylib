@@ -4,9 +4,11 @@ A companion pip boy library for Fallout 4.
 
 See [pipboyrelay](https://github.com/rgbkrk/pipboyrelay) for an example usage.
 
-Totally a work in progress. This is intended to become just a library, with a main outside. 
+Totally a work in progress. Checkout the TODO/ROADMAP to see what you could help with.
 
 ## Requirements
+
+You'll need Fallout 4 for the PC, PS4, or XBONE. Failing that, using this near your loved ones on the same wifi network is also fun.
 
 You'll need node & npm. Go get 'em then install `pipboylib`.
 
@@ -14,13 +16,7 @@ You'll need node & npm. Go get 'em then install `pipboylib`.
 npm install pipboylib
 ```
 
-In addition, you'll need Fallout 4 on PC, PS4, or XBONE.
-
-## Usage
-
 In order for the utilities provided here to work, you'll need a running Fallout 4 game with the pip-boy app enabled. In order to do the full relay, you'll also want the mobile app running.
-
-For more programmatic usage of this library, use something like you see in `cli.js`.
 
 ## TODO
 
