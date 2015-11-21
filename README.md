@@ -6,6 +6,8 @@ See [pipboyrelay](https://github.com/rgbkrk/pipboyrelay) for an example usage.
 
 Totally a work in progress. Checkout the TODO/ROADMAP to see what you could help with.
 
+[Read the blog post for more details](https://getcarina.com/blog/fallout-4-service-discovery-and-relay)
+
 ## Requirements
 
 You'll need Fallout 4 for the PC, PS4. XBONE doesn't work yet.
