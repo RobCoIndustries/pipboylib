@@ -24,6 +24,12 @@ npm install pipboylib
 
 In order for the utilities provided here to work, you'll need a running Fallout 4 game with the pip-boy app enabled. In order to do the full relay, you'll also want the mobile app running.
 
+## Documentation
+
+As we figure out the spec we'll document what we can over in [docs](docs):
+
+* [App to Server Message Spec](docs/app-msg-spec.md)
+
 ## TODO
 
 * [X] UDP Autodiscovery of PS4 pip boy servers on PS4 [Bronze]
