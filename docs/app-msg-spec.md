@@ -1,4 +1,4 @@
-# Basic Structure
+# App to Console structure
 
 TCP messages from the app to the console are ASCII encoded JSON strings of the form:
 
@@ -39,8 +39,8 @@ this follows:
 ```
 
 ### Theory A
-`0x22` is `34`, which is the length of the ASCII contents that follows the binary 
-contents.  `0x00000005` is 5, it's unknown what this stands for.
+`0x22000000` is little-endian `34`, which is the length of the ASCII contents that follows the binary 
+contents.  `0x05` is 5, which seems to be a type/id.
 
 
 # Messages
