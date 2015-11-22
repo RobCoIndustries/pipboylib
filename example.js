@@ -16,7 +16,8 @@ var parser = require('pipboylib/lib/parser')
 var logPackets = false
 
 var logEvents = true
-var logEventFilter = ['name', 'payload']
+var logEventAttributeFilter = ['name', 'payload']
+var logEventFilter = {'keepAlive': true};
 
 var logUnparsedPayloads = true
 var logUnparsedPayloadTruncate = 256
@@ -24,11 +25,11 @@ var logUnparsedPayloadTruncate = 256
 parser.on('readable', function() {
   var e
   while (e = parser.read()) {
-    if (logEvents) {
-      console.log(e.name, _.omit(e, logEventFilter))
+    if (logEvents && !logEventFilter[e.name]) {
+      console.log(e.name, _.omit(e, logEventAttributeFilter))
     }
 
-    if (logUnparsedPayloads && !e.data && e.payload) {
+    if (logUnparsedPayloads && !logEventFilter[e.name] && !e.data && e.payload) {
       console.log(
         hexy.hexy(
           e.payload.slice(0, Math.min(e.payload.length, logUnparsedPayloadTruncate))
