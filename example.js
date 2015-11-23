@@ -3,15 +3,15 @@ var hexy = require('hexy')
 var util = require('util')
 var _ = require('lodash')
 
-var pipboylib = require('pipboylib')
-var relay = require('pipboylib/lib/relay')
+var pipboylib = require('.')
+var relay = require('./lib/relay')
 
 var UDPRelay = relay.UDPRelay
 var TCPRelay = relay.TCPRelay
 
 var falloutClient = new pipboylib.DiscoveryClient()
 
-var parser = require('pipboylib/lib/parser')
+var parser = require('./lib/parser')
 
 var logPackets = false
 
