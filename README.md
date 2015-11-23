@@ -29,6 +29,7 @@ In order for the utilities provided here to work, you'll need a running Fallout 
 As we figure out the spec we'll document what we can over in [docs](docs):
 
 * [App to Server Message Spec](docs/app-msg-spec.md)
+* [Server to App Message Spec](docs/server-msg-spec.md)
 
 ## TODO
 
