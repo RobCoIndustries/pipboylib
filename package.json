@@ -1,6 +1,6 @@
 {
   "name": "pipboylib",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "The companion pipboy library to Fallout 4",
   "main": "index.js",
   "scripts": {
