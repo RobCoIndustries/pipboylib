@@ -10,6 +10,11 @@
     "type": "git",
     "url": "https://github.com/rgbkrk/pipboylib.git"
   },
+  "dependencies": {
+    "concentrate": "0.2.3",
+    "dissolve": "0.3.3",
+    "lodash": "3.10.1"
+  },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
 }
