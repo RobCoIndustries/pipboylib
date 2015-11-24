@@ -40,6 +40,8 @@ DiscoveryClient.prototype.close = function close (cb) {
 
 module.exports = {
   DiscoveryClient: DiscoveryClient,
+  PipDB: require('./lib/pipdb'),
+  PipDecode: require('./lib/pipdecode'),
   FALLOUT_UDP_PORT: FALLOUT_UDP_PORT,
   FALLOUT_TCP_PORT: FALLOUT_TCP_PORT
 }
