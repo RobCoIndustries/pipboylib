@@ -43,6 +43,7 @@ module.exports = {
   PipDB: require('./lib/pipdb'),
   PipDecode: require('./lib/pipdecode'),
   PipEncode: require('./lib/pipencode'),
+  PipMap: require('./lib/pipmap'),
   FALLOUT_UDP_PORT: FALLOUT_UDP_PORT,
   FALLOUT_TCP_PORT: FALLOUT_TCP_PORT
 }
