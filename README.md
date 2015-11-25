@@ -1,8 +1,6 @@
 # pipboylib
 
-[![Join the chat at https://gitter.im/rgbkrk/pipboylib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rgbkrk/pipboylib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![npm version](https://badge.fury.io/js/pipboylib.svg)](https://badge.fury.io/js/pipboylib)
+[![npm version](https://badge.fury.io/js/pipboylib.svg)](https://badge.fury.io/js/pipboylib) [![Join the chat at https://gitter.im/rgbkrk/pipboylib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rgbkrk/pipboylib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A companion library to the Fallout 4 pip boy app.
 
@@ -32,16 +30,3 @@ As we figure out the spec we'll document what we can over in [docs](docs):
 
 * [App to Server Message Spec](docs/app-msg-spec.md)
 * [Server to App Message Spec](docs/server-msg-spec.md)
-
-## TODO
-
-* [X] UDP Autodiscovery of PS4 pip boy servers [Bronze]
-* [X] UDP Autodiscovery of PC pip boy servers [Bronze]
-* [ ] UDP Autodiscovery of XBONE pip boy servers [Bronze]
-* [X] UDP Relay of PS4 pip boy server [Silver]
-* [X] TCP Relay of PS4 pip boy server [Silver]
-* [X] Decode initial stats response from a pip boy server [Gold]
-* [X] Figure out the map update protocol [Gold]
-* [X] Document the wire protocol app -> server [Gold]
-* [X] Document the wire protocol server -> app [Gold]
-* [ ] Finish all of the above [Platinum]
