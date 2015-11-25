@@ -2,18 +2,22 @@
   "name": "pipboylib",
   "version": "0.3.0",
   "description": "The companion pipboy library to Fallout 4",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Tests are cool, we should do those.\""
+    "compile": "rm -rf lib && babel src -q --out-dir lib",
+    "postinstall": "npm run compile",
+    "example": "babel-node example.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/rgbkrk/pipboylib.git"
   },
   "dependencies": {
-    "concentrate": "0.2.3",
+    "babel-cli": "^6.2.0",
+    "babel-plugin-transform-export-extensions": "^6.1.18",
+    "babel-preset-es2015": "^6.1.18",
     "dissolve": "0.3.3",
-    "lodash": "3.10.1"
+    "lodash": "^3.10.1"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
