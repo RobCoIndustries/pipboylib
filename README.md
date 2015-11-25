@@ -1,5 +1,7 @@
 # pipboylib
 
+[![Join the chat at https://gitter.im/rgbkrk/pipboylib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rgbkrk/pipboylib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![npm version](https://badge.fury.io/js/pipboylib.svg)](https://badge.fury.io/js/pipboylib)
 
 A companion library to the Fallout 4 pip boy app.
