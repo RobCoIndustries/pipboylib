@@ -1,29 +1,29 @@
-#!/usr/bin/env node
-var hexy = require('hexy')
-var util = require('util')
-var _ = require('lodash')
+import hexy from 'hexy'
+import util from 'util'
+import _ from 'lodash'
 
-var pipboylib = require('pipboylib')
-var relay = require('pipboylib/lib/relay')
+import {
+  UDPRelay,
+  TCPRelay,
+  DiscoveryClient,
+  parser,
+  FALLOUT_TCP_PORT
+} from './lib/index'
 
-var UDPRelay = relay.UDPRelay
-var TCPRelay = relay.TCPRelay
+const falloutClient = new DiscoveryClient()
 
-var falloutClient = new pipboylib.DiscoveryClient()
+const logPackets = false
+const logEvents = true
+const logEventAttributeFilter = ['name', 'payload']
+const logEventFilter = {
+  keepAlive: true
+};
 
-var parser = require('pipboylib/lib/parser')
+const logUnparsedPayloads = true
+const logUnparsedPayloadTruncate = 256
 
-var logPackets = false
-
-var logEvents = true
-var logEventAttributeFilter = ['name', 'payload']
-var logEventFilter = {'keepAlive': true};
-
-var logUnparsedPayloads = true
-var logUnparsedPayloadTruncate = 256
-
-parser.on('readable', function() {
-  var e
+parser.on('readable', () => {
+  let e
   while (e = parser.read()) {
     if (logEvents && !logEventFilter[e.name]) {
       console.log(e.name, _.omit(e, logEventAttributeFilter))
@@ -55,24 +55,25 @@ function logMessage(name, data, t) {
   parser.write(data)
 }
 
-falloutClient.discover(function (error, server) {
+falloutClient.discover((error, server) => {
   if (error) {
     return console.error(error)
   }
   console.log('Discovered: ', server)
 
-  var udpRelay = new UDPRelay()
-  udpRelay.bind(server.info, function (data, telemetry) {
+  const udpRelay = new UDPRelay()
+  udpRelay.listen(server.info, (data, telemetry) => {
     logMessage('[UDP Relay] ', data, telemetry)
   })
 
-  var tcpServerInfo = {}
-  tcpServerInfo.address = server.info.address
-  tcpServerInfo.port = pipboylib.FALLOUT_TCP_PORT
-  tcpServerInfo.family = server.info.family
+  const tcpServerInfo = {
+    address: server.info.address,
+    port: FALLOUT_TCP_PORT,
+    family: server.info.family
+  }
 
-  var tcpRelay = new TCPRelay()
-  tcpRelay.listen(tcpServerInfo, function (data, telemetry) {
+  const tcpRelay = new TCPRelay()
+  tcpRelay.listen(tcpServerInfo, (data, telemetry) => {
     logMessage('[TCP Relay] ', data, telemetry)
   })
   console.log('UDP and TCP Relay created for: ', server.info)
