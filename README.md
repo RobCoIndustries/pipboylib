@@ -33,13 +33,13 @@ As we figure out the spec we'll document what we can over in [docs](docs):
 
 ## TODO
 
-* [X] UDP Autodiscovery of PS4 pip boy servers on PS4 [Bronze]
-* [ ] UDP Autodiscovery of PC pip boy servers on [Bronze]
-* [ ] UDP Autodiscovery of XBONE pip boy servers on [Bronze]
+* [X] UDP Autodiscovery of PS4 pip boy servers [Bronze]
+* [X] UDP Autodiscovery of PC pip boy servers [Bronze]
+* [ ] UDP Autodiscovery of XBONE pip boy servers [Bronze]
 * [X] UDP Relay of PS4 pip boy server [Silver]
 * [X] TCP Relay of PS4 pip boy server [Silver]
-* [ ] Decode initial stats response from a pip boy server [Gold]
-* [ ] Figure out the map update protocol [Gold]
-* [ ] Document the wire protocol app -> server [Gold]
-* [ ] Document the wire protocol server -> app [Gold]
+* [X] Decode initial stats response from a pip boy server [Gold]
+* [X] Figure out the map update protocol [Gold]
+* [X] Document the wire protocol app -> server [Gold]
+* [X] Document the wire protocol server -> app [Gold]
 * [ ] Finish all of the above [Platinum]
