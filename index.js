@@ -42,6 +42,7 @@ module.exports = {
   DiscoveryClient: DiscoveryClient,
   PipDB: require('./lib/pipdb'),
   PipDecode: require('./lib/pipdecode'),
+  PipMap: require('./lib/pipmap'),
   FALLOUT_UDP_PORT: FALLOUT_UDP_PORT,
   FALLOUT_TCP_PORT: FALLOUT_TCP_PORT
 }
