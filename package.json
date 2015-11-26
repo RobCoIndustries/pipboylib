@@ -6,8 +6,9 @@
   "scripts": {
     "compile": "rm -rf lib && babel src -q --out-dir lib",
     "postinstall": "npm run compile",
-    "example": "babel-node example.js",
-    "test": "npm run compile && babel-tape-runner test/*.js | faucet"
+    "pretest": "npm run compile",
+    "test": "babel-tape-runner test/*.js | faucet",
+    "example": "babel-node example.js"
   },
   "repository": {
     "type": "git",
