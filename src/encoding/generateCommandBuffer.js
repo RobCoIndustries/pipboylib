@@ -1,20 +1,4 @@
-const commands = {
-  UseItem: 0,
-  DropItem: 1,
-  SetFavorite: 2,
-  ToggleComponentFavorite: 3,
-  SortInventory: 4,
-  ToggleQuestActive: 5,
-  SetCustomMapMarker: 6,
-  RemoveCustomMapMarker: 7,
-  CheckFastTravel: 8,
-  FastTravel: 9,
-  MoveLocalMap: 10,
-  ZoomLocalMap: 11,
-  ToggleRadioStation: 12,
-  RequestLocalMapSnapshot: 13,
-  ClearIdle: 14,
-}
+import commands from '../constants'
 
 let nextCommandId = 1
 function encodePacket(type, args = []) {
@@ -31,7 +15,7 @@ function encodePacket(type, args = []) {
   return buffer;
 }
 
-export default function createCommandPacket(type, ...args) {
+export default function generateCommandBuffer(type, ...args) {
   if (args.length === 1 && Array.isArray(args[1])) {
     args = args[1]
   }

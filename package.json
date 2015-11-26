@@ -6,8 +6,9 @@
   "scripts": {
     "compile": "rm -rf lib && babel src -q --out-dir lib",
     "postinstall": "npm run compile",
-    "example": "babel-node example.js",
-    "test": "npm run compile && babel-tape-runner test/*.js"
+    "pretest": "npm run compile",
+    "test": "babel-tape-runner test/*.js | faucet",
+    "example": "babel-node example.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
     "babel-plugin-transform-export-extensions": "^6.1.18",
     "babel-preset-es2015": "^6.1.18",
     "dissolve": "0.3.3",
-    "lodash": "^3.10.1"
+    "lodash": "^3.10.1",
+    "rx": "^4.0.7",
+    "rx-node": "^1.0.1"
   },
   "devDependencies": {
     "babel-tape-runner": "^1.3.0",

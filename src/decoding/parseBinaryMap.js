@@ -1,4 +1,4 @@
-export default function decodeMap(buffer) {
+export default function parseBinaryMap(buffer) {
   let cursor = 8
   let width = buffer.readUInt32LE(0)
   const height = buffer.readUInt32LE(4)
