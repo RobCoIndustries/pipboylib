@@ -8,7 +8,7 @@ function createDataStream() {
         .int8("type")
         .tap(function() {
           if (this.vars.length) {
-            this.buffer("data", this.vars.length);
+            this.buffer("payload", this.vars.length);
           }
         })
         .tap(function() {
