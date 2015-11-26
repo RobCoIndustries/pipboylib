@@ -20,7 +20,7 @@ const types = {
   Dictionary: 8
 };
 
-export default class PipDB extends EventEmitter {
+export class PipDB extends EventEmitter {
   constructor() {
     super()
 
@@ -101,15 +101,16 @@ export default class PipDB extends EventEmitter {
   }
 
   readString(id, buffer, cursor) {
-    let i
-    for (i = cursor; i < buffer.length; i++) {
-      if (buffer[i] === 0) {
-        break
+    let i = 0;
+    do {
+      i++;
+      if (cursor + i > buffer.length) {
+        throw "Can't find termination of string. Data incomplete?";
       }
-    }
+    } while (buffer[cursor + i - 1] != 0x00);
 
-    this.properties[id] = buffer.slice(cursor, cursor + i).toString('utf8')
-    return cursor + i + 1
+    this.properties[id] = buffer.slice(cursor, cursor + i - 1).toString('utf8')
+    return cursor + i
   }
 
   readList(id, buffer, cursor) {
@@ -131,36 +132,44 @@ export default class PipDB extends EventEmitter {
     const insertCount = buffer.readUInt16LE(cursor)
     cursor += 2;
 
-    let dict = this.properties[id] || {}
+    let dict = {}
 
     for (let i = 0; i < insertCount; i++) {
       const refId = buffer.readUInt32LE(cursor)
       cursor += 4
 
-      let j
-      for (j = cursor; j < buffer.length; j++) {
-        if (buffer[j] === 0) {
-          break
+      let j = 0;
+      do {
+        j++;
+        if (cursor + j > buffer.length) {
+          throw "Can't find termination of string. Data incomplete?";
         }
-      }
+      } while (buffer[cursor + j - 1] != 0x00);
 
-      const key = buffer.slice(cursor, cursor + j).toString('utf8')
-      cursor += j + 1
+      const key = buffer.slice(cursor, cursor + j - 1).toString('utf8')
+      cursor += j
       dict[key] = refId
     }
 
     const removeCount = buffer.readUInt16LE(cursor)
     cursor += 2
 
+    const remove = [];
     for (let i = 0; i < removeCount; i++) {
       const refId = buffer.readUInt32LE(cursor)
       cursor += 4
 
-      dict = _.omit(dict, key => dict[key] === refId)
-      this.properties[refId] = null
+      remove.push(refId)
+      delete this.properties[refId]
     }
 
-    this.properties[id] = dict
+    for (let key in dict) {
+      if (remove.indexOf(dict[key]) > -1) {
+        delete dict[key];
+      }
+    }
+
+    this.properties[id] = Object.assign(this.properties[id] || {}, dict)
     return cursor
   }
 
@@ -168,7 +177,7 @@ export default class PipDB extends EventEmitter {
     const obj = this.properties[index];
 
     if (Array.isArray(obj)) {
-      return this.properties[index].map(x => this.normalizeDBEntry(x));
+      return obj.map(x => this.normalizeDBEntry(x));
     } else if (typeof obj === 'object') {
       const res = _.object(Object.keys(obj).map(key => [key, this.normalizeDBEntry(obj[key])]));
       res._index = index;
