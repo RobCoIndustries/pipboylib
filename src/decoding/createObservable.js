@@ -4,7 +4,7 @@ import {
 
 import createDataStream from '../decoding/createDataStream'
 
-export default function createObservableConnection(socket) {
+export default function createObservable(socket) {
   const parser = createDataStream()
   return Observable
     .create(observer => {
