@@ -1,20 +1,4 @@
-const commands = {
-  UseItem: 0,
-  DropItem: 1,
-  SetFavorite: 2,
-  ToggleComponentFavorite: 3,
-  SortInventory: 4,
-  ToggleQuestActive: 5,
-  SetCustomMapMarker: 6,
-  RemoveCustomMapMarker: 7,
-  CheckFastTravel: 8,
-  FastTravel: 9,
-  MoveLocalMap: 10,
-  ZoomLocalMap: 11,
-  ToggleRadioStation: 12,
-  RequestLocalMapSnapshot: 13,
-  ClearIdle: 14,
-}
+import commands from '../constants'
 
 let nextCommandId = 1
 function encodePacket(type, args = []) {
