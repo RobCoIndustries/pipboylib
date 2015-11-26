@@ -1,6 +1,6 @@
 import channels from '../constants'
 
-export default function authenticated(observable) {
+export default function connected(observable) {
   return new Promise((resolve, reject) => {
     const handshake = observable
       .filter(x => x.type === channels.Handshake)

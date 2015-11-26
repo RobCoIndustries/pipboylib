@@ -1,1 +1,1 @@
-export authenticated from './authenticated'
+export connected from './connected'
