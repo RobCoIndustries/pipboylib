@@ -6,7 +6,8 @@
   "scripts": {
     "compile": "rm -rf lib && babel src -q --out-dir lib",
     "postinstall": "npm run compile",
-    "example": "babel-node example.js"
+    "example": "babel-node example.js",
+    "test": "npm run compile && babel-tape-runner test/*.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,11 @@
     "babel-preset-es2015": "^6.1.18",
     "dissolve": "0.3.3",
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "babel-tape-runner": "^1.3.0",
+    "faucet": "0.0.1",
+    "tape": "^4.2.2"
   },
   "author": "Kyle Kelley <rgbkrk@gmail.com>",
   "license": "BSD-3-Clause"
