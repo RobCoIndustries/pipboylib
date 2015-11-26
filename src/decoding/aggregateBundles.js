@@ -1,4 +1,4 @@
-export aggregateBundles(state = {}, newBundle) {
+export default function aggregateBundles(state = {}, newBundle) {
   state = Object.assign({}, state) // copy
 
   for (let key in bundle) {

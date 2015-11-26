@@ -33,6 +33,6 @@ export class Interface {
   }
 }
 
-export default createDatabaseInterface(database) {
+export default function createDatabaseInterface(database) {
   return new Interface(database, 0)
 }
