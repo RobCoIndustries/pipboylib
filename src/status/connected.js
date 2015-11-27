@@ -1,4 +1,6 @@
-import channels from '../constants'
+import {
+  channels
+} from '../constants'
 
 export default function connected(observable) {
   return new Promise((resolve, reject) => {
