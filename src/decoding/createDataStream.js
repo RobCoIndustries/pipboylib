@@ -1,6 +1,6 @@
 import dissolve from 'dissolve'
 
-function createDataStream() {
+export default function createDataStream() {
   return dissolve()
     .loop(function() {
       this
