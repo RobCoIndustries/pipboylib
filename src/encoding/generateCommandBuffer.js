@@ -1,4 +1,6 @@
-import commands from '../constants'
+import {
+  commands
+} from '../constants'
 
 let nextCommandId = 1
 function encodePacket(type, args = []) {
