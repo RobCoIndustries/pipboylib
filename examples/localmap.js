@@ -3,7 +3,9 @@ import {
   decoding,
   status,
   constants
-} from '../lib/index'
+} from '../lib/index';
+
+import * as fs from 'fs';
 
 const {
   discover,
@@ -46,9 +48,40 @@ discover()
 
         localMap
           .distinctUntilChanged()
-          .subscribe(x => {
-            console.log('width: ', x.width)
-            console.log('height: ', x.height)
+          .subscribe(map => {
+            // We could write the file out as a PNG or JPEG if we wanted.
+            // We'll write a file out as PGM directly so we don't
+            // need a dependency for this example.
+            //
+            // If you don't have a viewer for PGM but have imagemagick, run
+            //   convert localmap.pgm localmap.png
+
+            var imageFile = fs.createWriteStream("localmap.pgm", {
+                flags: 'w',
+                defaultEncoding: 'ascii',
+                mode: 0o666
+            })
+
+            // Write plain PGM header (P2) + one whitespace
+            imageFile.write("P2\n")
+
+            // Write width ascii decimal + one whitespace
+            imageFile.write(map.width + " ")
+            // Write height ascii decimal + one whitespace
+            imageFile.write(map.height + "\n")
+
+            // Max gray value (ascii decimal) + one whitespace
+            imageFile.write("255\n")
+
+            // Write each value as an integer
+            for (var ii = 0; ii < map.pixels.length; ii++) {
+              imageFile.write(map.pixels.readUInt8(ii) + ' ');
+              if ((ii % map.height) == (map.height - 1)) {
+                imageFile.write("\n");
+              }
+            }
+            console.log("Wrote file");
+            // subject.onCompleted();
           })
 
         subject.observer.onNext(['RequestLocalMapSnapshot'])
