@@ -6,7 +6,7 @@ export default function connected(observable) {
   return new Promise((resolve, reject) => {
     const handshake = observable
       .filter(x => x.type === channels.Handshake)
-      .map(x => JSON.parse(x.data.toString("utf8")))
+      .map(x => JSON.parse(x.payload.toString("utf8")))
       .first()
       .subscribe(x => {
         resolve(x)
