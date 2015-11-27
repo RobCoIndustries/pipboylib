@@ -20,9 +20,9 @@ export default function generateCommandBuffer(type, ...args) {
     args = args[1]
   }
 
-  if (!Commands.hasOwnProperty(type)) {
+  if (!commands.hasOwnProperty(type)) {
     throw `Unknown command type ${type}!`
   }
 
-  return encodePacket(Commands[type], args)
+  return encodePacket(commands[type], args)
 }
