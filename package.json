@@ -4,8 +4,8 @@
   "description": "The companion pipboy library to Fallout 4",
   "main": "lib/index.js",
   "scripts": {
+    "prepublish": "npm run compile",
     "compile": "rm -rf lib && babel src -q --out-dir lib",
-    "postinstall": "npm run compile",
     "pretest": "npm run compile",
     "test": "babel-tape-runner test/*.js | faucet",
     "example": "babel-node example.js"
