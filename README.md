@@ -1,6 +1,6 @@
 # pipboylib
 
-[![npm version](https://badge.fury.io/js/pipboylib.svg)](https://badge.fury.io/js/pipboylib) [![Join the chat at https://gitter.im/rgbkrk/pipboylib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rgbkrk/pipboylib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![npm version](https://badge.fury.io/js/pipboylib.svg)](https://badge.fury.io/js/pipboylib) [![Join the chat at https://gitter.im/RobCoIndustries/pipboylib](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/RobCoIndustries/pipboylib?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A companion library in JavaScript for the Fallout 4 pip boy app.
 
@@ -14,7 +14,7 @@ This is a node library, so you'll need `node` and `npm`. If, [like Nick Valentin
 npm install pipboylib
 ```
 
-In order for this library to have any utility, you'll need a running Fallout 4 game with the pip-boy app enabled. It only works on PS4 and PC at the moment (see [pipboylib#27](https://github.com/rgbkrk/pipboylib/issues/27)).
+In order for this library to have any utility, you'll need a running Fallout 4 game with the pip-boy app enabled. It only works on PS4 and PC at the moment (see [pipboylib#27](https://github.com/RobCoIndustries/pipboylib/issues/27)).
 
 ## Usage
 
@@ -86,7 +86,7 @@ discover()
 
 ```
 
-See [examples](examples) or the Electron app, [pipboy](https://github.com/rgbkrk/pipboy), for more
+See [examples](examples) or the Electron app, [pipboy](https://github.com/RobCoIndustries/pipboy), for more
 examples.
 
 ## Protocol documentation and other clients
