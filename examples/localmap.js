@@ -62,7 +62,7 @@ discover()
                 mode: 0o666
             })
 
-            imageFile.write(`P5 ${map.width} ${map.height} 255\n ${pixels.toString('ascii')}`)
+            imageFile.write(`P5 ${map.width} ${map.height} 255\n ${map.pixels.toString('ascii')}`)
             console.log('Wrote file');
           })
 
