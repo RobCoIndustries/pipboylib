@@ -11,7 +11,7 @@ import {
 const AUTODISCOVERY_PAYLOAD = '{"cmd":"autodiscover"}'
 
 export default function createDiscovery() {
-  const source = Observable.create(function (observer) {
+  return Observable.create(observer => {
     const client = dgram.createSocket('udp4')
 
     client.bind(undefined, undefined, () => {
@@ -36,7 +36,7 @@ export default function createDiscovery() {
         }
       })
 
-      client.on('error', (err) => {
+      client.on('error', err => {
         observer.onError(err);
       })
 
@@ -44,9 +44,9 @@ export default function createDiscovery() {
         observer.onCompleted();
       })
     })
+
     return () => {
       client.close();
     }
   })
-  return source
 }
