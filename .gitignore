@@ -28,3 +28,6 @@ node_modules
 
 # Compiled files
 lib
+
+examples/*.png
+examples/*.pgm
