@@ -58,11 +58,11 @@ discover()
 
             var imageFile = fs.createWriteStream('localmap.pgm', {
                 flags: 'w',
-                defaultEncoding: 'ascii',
+                defaultEncoding: 'binary',
                 mode: 0o666
             })
 
-            imageFile.write(`P5 ${map.width} ${map.height} 255\n ${map.pixels.toString('ascii')}`)
+            imageFile.write(`P5 ${map.width} ${map.height} 255\n ${map.pixels.toString('binary')}`)
             console.log('Wrote file');
           })
 
