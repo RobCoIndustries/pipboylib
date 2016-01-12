@@ -94,5 +94,6 @@ examples.
 * [App to Server Message Spec](docs/app-msg-spec.md)
 * [Server to App Message Spec](docs/server-msg-spec.md)
 * [Pipboy Spec](https://github.com/mattbaker/pipboyspec)
-* [Python client](https://github.com/NimVek/pipboy)
+* [Python client/server/proxy by NimVek](https://github.com/NimVek/pipboy)
+* [Python client/server/proxy by Gavitron](https://github.com/Gavitron/pipulator)
 * [Go client](https://github.com/nkatsaros/pipboygo)
