@@ -97,3 +97,4 @@ examples.
 * [Python client/server/proxy by NimVek](https://github.com/NimVek/pipboy)
 * [Python client/server/proxy by Gavitron](https://github.com/Gavitron/pipulator)
 * [Go client](https://github.com/nkatsaros/pipboygo)
+* [Java server (game side)](https://github.com/luckydonald/JavaPipBoyServer)
